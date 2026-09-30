@@ -1,0 +1,34 @@
+---
+import { Picture } from 'astro:assets';
+import sessao from '../assets/site/aline-tatuando.png';
+import { process } from '../content/site.pt';
+---
+<section class="section" id="processo" aria-labelledby="process-title">
+  <div class="wrap">
+    <div class="grid">
+      <div class="process__rail">
+        <h2 class="process__head" id="process-title">{process.title}</h2>
+        <figure class="process__photo">
+          <Picture
+            src={sessao}
+            formats={['avif', 'webp']}
+            widths={[480, 720, 1000]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            quality={80}
+            loading="lazy"
+            alt={process.imgAlt}
+          />
+        </figure>
+      </div>
+      <ol class="process__steps">
+        {process.steps.map((s, i) => (
+          <li class="step" data-reveal style={`--i:${i % 3}`}>
+            <span class="step__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

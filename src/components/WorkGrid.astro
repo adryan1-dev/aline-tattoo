@@ -1,0 +1,86 @@
+---
+import { getImage } from 'astro:assets';
+import { getWorks } from '../lib/portfolio';
+import { work, site } from '../content/site.pt';
+import WorkItem from './WorkItem.astro';
+
+const works = getWorks();
+// Imagem ampliada do lightbox: nunca acima da largura nativa (sem upscale).
+const full = await Promise.all(
+  works.map((w) =>
+    getImage({ src: w.image, format: 'webp', width: Math.min(1800, w.image.width), quality: 88 }),
+  ),
+);
+const total = works.length;
+
+// Três blocos: destaque (gato + duas peças), fileira A e fileira B. As fileiras no desktop
+// têm altura igual e cada obra ocupa largura proporcional à sua proporção nativa: nada é cortado
+// e o espaço entre as fotos é sempre o mesmo. O convite do Instagram completa a fileira B.
+const ratio = (w: (typeof works)[number]) => w.image.width / w.image.height;
+const sum = (list: typeof works) => list.reduce((a, w) => a + ratio(w), 0);
+const lead = works.slice(0, 3);
+const rowA = works.slice(3, 6);
+const rowB = works.slice(6);
+const ctaGrow = Math.max(0.5, sum(rowA) - sum(rowB));
+---
+<section class="section work" id="trabalhos" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="work__head">
+      <h2 id="work-title">{work.title}</h2>
+      <p data-reveal>{work.lead}</p>
+    </div>
+    <div class="work__grid" data-lightbox-root>
+      <div class="work__lead">
+        {lead.map((w, i) => (
+          <WorkItem
+            work={w}
+            index={i}
+            full={full[i]}
+            sizes={i === 0 ? '(min-width: 1024px) 58vw, 100vw' : '(min-width: 1024px) 40vw, 50vw'}
+          />
+        ))}
+      </div>
+      <div class="work__row">
+        {rowA.map((w, i) => (
+          <WorkItem work={w} index={3 + i} full={full[3 + i]} sizes="(min-width: 1024px) 32vw, 50vw" />
+        ))}
+      </div>
+      <div class="work__row">
+        {rowB.map((w, i) => (
+          <WorkItem work={w} index={6 + i} full={full[6 + i]} sizes="(min-width: 1024px) 32vw, 50vw" />
+        ))}
+        <a class="work__cta" href={site.instagramUrl} target="_blank" rel="noopener" style={`--r:${ctaGrow.toFixed(4)}`} data-reveal>
+          <span class="caption">@{site.instagramUser}</span>
+          <span class="work__cta-badge" aria-hidden="true">
+            <svg class="work__cta-ring" viewBox="0 0 120 120">
+              <defs><path id="cta-ring" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" /></defs>
+              <text><textPath href="#cta-ring" textLength="288" lengthAdjust="spacing">Instagram · @{site.instagramUser} · Acervo completo ·</textPath></text>
+            </svg>
+            <svg class="work__cta-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square" /></svg>
+          </span>
+          <span class="work__cta-text">{work.more}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <dialog class="lb" data-lightbox aria-label="Galeria de trabalhos" data-total={total}>
+    <div class="lb__stage">
+      <div class="lb__bar">
+        <span class="lb__count" data-lb-count aria-live="polite"></span>
+        <button type="button" class="lb__close" data-lb-close>Fechar</button>
+      </div>
+      <div class="lb__view"><img data-lb-img alt="" /></div>
+      <div class="lb__foot">
+        <p class="lb__cap" data-lb-cap></p>
+        <div class="lb__navs">
+          <button type="button" class="lb__nav" data-lb-prev aria-label="Obra anterior">←</button>
+          <button type="button" class="lb__nav" data-lb-next aria-label="Próxima obra">→</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  import '../scripts/lightbox';
+</script>

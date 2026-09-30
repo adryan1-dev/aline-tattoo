@@ -1,0 +1,16 @@
+---
+import { artist } from '../content/site.pt';
+---
+<section class="section" id="aline" aria-labelledby="artist-title">
+  <div class="wrap">
+    <div class="grid">
+      <h2 class="artist__title" id="artist-title">{artist.title}</h2>
+      <div class="artist__body" data-reveal>
+        {artist.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <blockquote class="artist__quote">
+        {artist.quote}
+      </blockquote>
+    </div>
+  </div>
+</section>

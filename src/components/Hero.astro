@@ -1,0 +1,37 @@
+---
+import { Picture } from 'astro:assets';
+import retrato from '../assets/site/retrato.png';
+import { hero, site } from '../content/site.pt';
+---
+<section class="hero" id="topo" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="grid hero__grid">
+      <div class="hero__text" data-intro>
+        <div class="hero__sign">
+          <p class="hero__by">{site.name} · por {site.artist}</p>
+          <p class="hero__lema" aria-label={site.lema.join(', ')}>
+            {site.lema.map((w) => <span>{w}</span>)}
+          </p>
+        </div>
+        <h1 id="hero-title">{hero.h1}</h1>
+        <p class="hero__sub">{hero.sub}</p>
+        <div class="hero__actions">
+          <a class="btn" href="#projeto">{site.ctaLabel}</a>
+          <a class="link-arrow" href="#trabalhos">{hero.seeWork} ↓</a>
+        </div>
+      </div>
+      <div class="hero__media" data-intro>
+        <Picture
+          src={retrato}
+          formats={['avif', 'webp']}
+          widths={[480, 720, 853]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          quality={82}
+          loading="eager"
+          fetchpriority="high"
+          alt={hero.imgAlt}
+        />
+      </div>
+    </div>
+  </div>
+</section>

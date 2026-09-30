@@ -1,0 +1,117 @@
+---
+import { project, site } from '../content/site.pt';
+---
+<section class="section" id="projeto" aria-labelledby="project-title">
+  <div class="wrap">
+    <div class="grid">
+      <div class="project__head">
+        <h2 id="project-title">{project.title}</h2>
+        <p data-reveal>{project.lead}</p>
+      </div>
+
+        <form
+          class="form"
+          id="project-form"
+          novalidate
+          data-wa={site.whatsapp}
+          data-ig={site.instagramUser}
+          data-errors={JSON.stringify(project.errors)}
+          data-status={JSON.stringify(project.status)}
+        >
+          <div class="error-summary" data-summary tabindex="-1" role="alert" hidden>
+            <p><strong>{project.errors.summary}</strong></p>
+            <ul data-summary-list></ul>
+          </div>
+
+          <div class="field">
+            <label for="f-idea">O que você imagina?</label>
+            <span class="help" id="f-idea-h">Com suas palavras. Pode ser algo bem claro ou só uma sensação.</span>
+            <textarea class="textarea" id="f-idea" name="idea" required maxlength="1500" aria-describedby="f-idea-h f-idea-e" autocomplete="off"></textarea>
+            <span class="error" id="f-idea-e" hidden></span>
+          </div>
+
+          <div class="field">
+            <label for="f-body">Em qual região do corpo?</label>
+            <span class="help" id="f-body-h">Por exemplo: antebraço, costela, panturrilha.</span>
+            <input class="input" id="f-body" name="body" type="text" list="regions" required maxlength="80" aria-describedby="f-body-h f-body-e" autocomplete="off" />
+            <datalist id="regions">
+              <option value="Braço"></option><option value="Antebraço"></option><option value="Ombro"></option>
+              <option value="Costas"></option><option value="Costela"></option><option value="Peito"></option>
+              <option value="Coxa"></option><option value="Panturrilha"></option><option value="Tornozelo"></option>
+              <option value="Mão"></option><option value="Pescoço"></option>
+            </datalist>
+            <span class="error" id="f-body-e" hidden></span>
+          </div>
+
+          <fieldset class="fieldset field" aria-describedby="f-size-h f-size-e">
+            <legend>Tamanho aproximado</legend>
+            <span class="help" id="f-size-h">Uma ideia já basta. Se tiver dúvida, conversamos.</span>
+            <div class="radios">
+              {project.sizes.map((s, i) => (
+                <label class="radio">
+                  <input type="radio" name="size" value={s} required={i === 0} />
+                  <span>{s}</span>
+                </label>
+              ))}
+            </div>
+            <span class="error" id="f-size-e" hidden></span>
+          </fieldset>
+
+          <div class="field">
+            <label for="f-name">Seu nome</label>
+            <input class="input" id="f-name" name="name" type="text" required maxlength="80" autocomplete="given-name" aria-describedby="f-name-e" />
+            <span class="error" id="f-name-e" hidden></span>
+          </div>
+
+          <details class="more">
+            <summary>{project.moreSummary}</summary>
+            <div class="more__body">
+              <fieldset class="fieldset field">
+                <legend>Quando você imagina fazer?</legend>
+                <div class="radios">
+                  {project.timings.map((t) => (
+                    <label class="radio"><input type="radio" name="timing" value={t} /><span>{t}</span></label>
+                  ))}
+                </div>
+              </fieldset>
+              <div class="field">
+                <label for="f-city">Onde você está?</label>
+                <input class="input" id="f-city" name="city" type="text" maxlength="80" autocomplete="address-level2" />
+              </div>
+              <div class="field">
+                <label for="f-budget">Investimento que pretende destinar</label>
+                <span class="help" id="f-budget-h">Ajuda a alinhar a proposta às suas expectativas.</span>
+                <input class="input" id="f-budget" name="budget" type="text" maxlength="60" aria-describedby="f-budget-h" />
+              </div>
+              <div class="field">
+                <label for="f-concerns">Algo te deixa inseguro(a)?</label>
+                <span class="help" id="f-concerns-h">Processo, dor, cicatrização, tamanho, local. Um espaço aberto para contar.</span>
+                <textarea class="textarea" id="f-concerns" name="concerns" maxlength="800" aria-describedby="f-concerns-h"></textarea>
+              </div>
+              <div class="field">
+                <label for="f-ig">Seu Instagram</label>
+                <input class="input" id="f-ig" name="instagram" type="text" maxlength="60" autocomplete="off" />
+              </div>
+            </div>
+          </details>
+
+          <p class="help">{project.refsNote}</p>
+          <div><button class="btn" type="submit">{project.submit}</button></div>
+
+          <div class="status" data-status-box role="status" hidden>
+            <p data-status-text></p>
+            <div class="status__actions">
+              <a class="btn" data-reopen target="_blank" rel="noopener">{project.status.reopen}</a>
+              <button class="btn btn--quiet" type="button" data-copy>{project.status.copy}</button>
+              <a class="btn btn--quiet" data-ig-link target="_blank" rel="noopener">{project.status.instagram}</a>
+            </div>
+            <p class="status__msg" data-msg></p>
+          </div>
+        </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/project-form';
+</script>

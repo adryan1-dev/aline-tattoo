@@ -1,0 +1,23 @@
+---
+import { nav, site } from '../content/site.pt';
+---
+<header class="header" data-intro>
+  <div class="wrap header__in">
+    <a class="wordmark" href="#topo" aria-label={`${site.name}, início`}>{site.name}</a>
+    <nav class="header__nav" aria-label="Principal">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+      <a href={site.instagramUrl} rel="noopener" target="_blank">Instagram</a>
+    </nav>
+    <div class="header__right">
+      <details class="menu">
+        <summary aria-label="Abrir menu">Menu</summary>
+        <div class="menu__panel">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          <a href={site.instagramUrl} rel="noopener" target="_blank">Instagram</a>
+        </div>
+      </details>
+      <a class="btn header__cta" href="#projeto">Iniciar <span class="cta-meu">meu </span>projeto</a>
+    </div>
+  </div>
+  <span class="header__progress" aria-hidden="true"></span>
+</header>

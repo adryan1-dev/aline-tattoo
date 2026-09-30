@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import WorkGrid from '../components/WorkGrid.astro';
+import Artist from '../components/Artist.astro';
+import Process from '../components/Process.astro';
+import ProjectForm from '../components/ProjectForm.astro';
+import Faq from '../components/Faq.astro';
+import Closing from '../components/Closing.astro';
+---
+<Base>
+  <Header />
+  <main id="conteudo">
+    <Hero />
+    <WorkGrid />
+    <Artist />
+    <Process />
+    <ProjectForm />
+    <Faq />
+    <Closing />
+  </main>
+  <script>
+    import '../scripts/motion';
+  </script>
+</Base>

@@ -1,0 +1,29 @@
+---
+import { faq, faqTitle } from '../content/site.pt';
+const featured = faq.filter((f) => f.featured);
+const rest = faq.filter((f) => !f.featured);
+---
+<section class="section" id="perguntas" aria-labelledby="faq-title">
+  <div class="wrap">
+    <div class="grid">
+      <h2 class="faq__head" id="faq-title">{faqTitle}</h2>
+      <div class="faq__list">
+        {featured.map((f) => (
+          <details class="qa">
+            <summary>{f.q}</summary>
+            <div class="qa__a">{f.a.map((p) => <p>{p}</p>)}</div>
+          </details>
+        ))}
+        <details class="faq__all">
+          <summary>Ver todas as perguntas ({faq.length})</summary>
+          {rest.map((f) => (
+            <details class="qa">
+              <summary>{f.q}</summary>
+              <div class="qa__a">{f.a.map((p) => <p>{p}</p>)}</div>
+            </details>
+          ))}
+        </details>
+      </div>
+    </div>
+  </div>
+</section>

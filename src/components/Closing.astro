@@ -1,0 +1,28 @@
+---
+import { closing, site } from '../content/site.pt';
+const year = new Date().getFullYear();
+// Faixa decorativa do lema: repetida para o laço não ter emenda. Leitores de tela ignoram.
+const band = Array.from({ length: 4 }, () => site.lema).flat();
+---
+<section class="section closing" aria-labelledby="closing-title">
+  <div class="marquee" data-marquee aria-hidden="true">
+    <div class="marquee__track">
+      {[0, 1].map(() => (
+        <span class="marquee__group">
+          {band.map((w) => <span class="marquee__word">{w}</span>)}
+        </span>
+      ))}
+    </div>
+  </div>
+  <div class="wrap closing__in">
+    <h2 id="closing-title">{closing.title}</h2>
+    <a class="btn" href="#projeto" data-reveal>{site.ctaLabel}</a>
+    <p class="closing__meta" data-reveal>
+      <a href={site.instagramUrl} target="_blank" rel="noopener">@{site.instagramUser}</a>
+      <span>{closing.location}</span>
+    </p>
+  </div>
+</section>
+<footer class="footer">
+  <div class="wrap">© {year} {site.name} por {site.artist}.</div>
+</footer>

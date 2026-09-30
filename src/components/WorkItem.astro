@@ -1,0 +1,41 @@
+---
+import { Picture } from 'astro:assets';
+import type { Work } from '../lib/portfolio';
+
+interface Props {
+  work: Work;
+  index: number;
+  full: { src: string };
+  sizes: string;
+}
+const { work: w, index, full, sizes } = Astro.props;
+const ratio = w.image.width / w.image.height;
+---
+<figure
+  class="work-item"
+  data-slot={index + 1}
+  style={`--i:${index % 3}; --ratio:${w.image.width}/${w.image.height}; --r:${ratio.toFixed(4)}; --fit:${w.fit}; --focal:${w.focal};`}
+>
+  <a
+    href={full.src}
+    data-work
+    data-index={index}
+    data-full={full.src}
+    data-alt={w.alt}
+    data-caption={`${w.caption} · ${w.region}`}
+    aria-label={`Ampliar: ${w.caption}`}
+  >
+    <span class="work-item__media">
+      <Picture
+        src={w.image}
+        formats={['avif', 'webp']}
+        widths={[480, 720, 1000, 1400]}
+        sizes={sizes}
+        quality={85}
+        loading="lazy"
+        alt={w.alt}
+      />
+    </span>
+    <figcaption><strong>{w.caption}</strong> · {w.region}</figcaption>
+  </a>
+</figure>
